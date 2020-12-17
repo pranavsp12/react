@@ -1,0 +1,92 @@
+//in authAction.js line 1
+
+ADDSTOCK_SUCCESS, ADDSTOCK_FAIL, UPDATESTOCK_SUCCESS, UPDATESTOCK_FAIL, DELETESTOCK_SUCCESS,DELETESTOCK_FAIL
+
+//in authAction.js line 192
+
+    export const addStock = formData => async dispatch=> {
+        try{
+            console.log(JSON.stringify(formData))
+            const res = await axios.post("http://localhost:9050/api/Stock/create", formData)
+    
+            dispatch({
+                type:ADDSTOCK_SUCCESS,
+                payload:res.data
+            })
+        }
+        catch(err){
+            dispatch({
+                type:ADDSTOCK_FAIL
+            })
+        }
+    }
+
+
+    export const updateStock = formData => async dispatch=> {
+        try{
+            console.log(JSON.stringify(formData))
+            //axios.defaults.headers.common['Authorization'] = Bearer + accessToken
+            const res = await axios.put("http://localhost:9050/api/Stock/update/"+formData.id, formData)
+    
+            dispatch({
+                type:UPDATEPRODUCT_SUCCESS,
+                payload:res.data
+            })
+        }
+        catch(err){
+            dispatch({
+                type:UPDATEPRODUCT_FAIL
+            })
+        }
+    }
+
+
+export const deleteStock = formData => async dispatch=> {
+    try{
+        console.log(JSON.stringify(formData))
+        //axios.defaults.headers.common['Authorization'] = Bearer + accessToken
+        const res = await axios.post("http://localhost:9050/api/Stock/id",+formData.id, formData)
+
+        dispatch({
+            type:DELETESTOCK_SUCCESS,
+            payload:res.data
+        })
+    }
+    catch(err){
+        dispatch({
+            type:DELETESTOCK_FAIL
+        })
+    }
+
+}
+
+//in types.js line 27
+
+export const ADDSTOCK_SUCCESS = 'ADDSTOCK_SUCCESS';
+export const ADDSTOCK_FAIL = 'FETCHREVIEWS_FAIL';
+export const UPDATESTOCK_SUCCESS = 'UPDATESTOCK_SUCCESS';
+export const UPDATESTOCK_FAIL = 'UPDATESTOCK_FAIL';
+export const DELETESTOCK_SUCCESS = 'DELETESTOCK_SUCCESS';
+export const DELETESTOCK_FAIL = 'DELETESTOCK_FAIL';
+
+//in authReducers.js line 55
+
+case ADDSTOCK_SUCCESS:
+    return { ...state, ...payload}
+
+case UPDATESTOCK_SUCCESS:
+    return { ...state, ...payload}
+
+case DELETESTOCK_SUCCESS:
+    return { ...state, ...payload}
+
+
+//in App.js line 25
+import AddStock from"./components/auth/AddStock";
+import UpdateStock from "./components/auth/UpdateStock";
+import DeleteStock from "./components/auth/DeleteStock";
+
+//in App.js line 53
+<Route exact path = "/addstock" component = {AddStock}></Route>
+<Route exact path = "/updatestock" component = {UpdateStock}></Route>
+<Route exact path = "/deletestock" component = {DeleteStock}></Route>
